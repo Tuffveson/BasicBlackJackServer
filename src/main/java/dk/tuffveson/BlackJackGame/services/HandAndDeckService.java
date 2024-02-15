@@ -17,9 +17,7 @@ public interface HandAndDeckService {
 
     GameEntity drawCard(GameEntity game, int targetHand);
 
-    default GameEntity playerDrawCard(GameEntity game){
-        return drawCard(game,0);
-    };
+    GameEntity playerDrawCard(GameEntity game);
     default GameEntity dealerDrawCardHidden(GameEntity game){
         return drawCard(game,1);
     };

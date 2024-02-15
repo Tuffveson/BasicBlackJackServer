@@ -71,9 +71,10 @@ public class HandAndDeckServiceImpl implements HandAndDeckService {
 
     @Override
     public GameEntity drawCard(GameEntity game, int target) {
-
         //remove random card from deck we need to ensure the list becomes an arraylist so that we can remove and add to it
         List<CardEntity> deck = new ArrayList<>(game.getDeck());
+
+
         int removeIndex = randomGenerator.nextInt(deck.size());
         CardEntity cardDrawn = deck.remove(removeIndex);
         game.setDeck(deck);
@@ -90,6 +91,18 @@ public class HandAndDeckServiceImpl implements HandAndDeckService {
         newHand.add(cardDrawn);
         game = setHandByTarget(game,target,newHand);
         return game;
+    }
+
+    @Override
+    public GameEntity playerDrawCard(GameEntity game) {
+        //First lets check if the player has bust, if they have they cannot draw further
+        List<CardEntity> playHand = game.getPlayerHand();
+        int score = getScoreFromEntity(playHand);
+        if(score>21){
+            return game;
+        }
+
+        return drawCard(game,0);
     }
 
     @Override
